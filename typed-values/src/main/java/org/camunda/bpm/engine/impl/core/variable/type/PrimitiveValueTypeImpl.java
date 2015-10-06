@@ -25,18 +25,19 @@ import org.camunda.bpm.engine.variable.value.BooleanValue;
 import org.camunda.bpm.engine.variable.value.BytesValue;
 import org.camunda.bpm.engine.variable.value.DateValue;
 import org.camunda.bpm.engine.variable.value.DoubleValue;
-import org.camunda.bpm.engine.variable.value.PeriodValue;
 import org.camunda.bpm.engine.variable.value.IntegerValue;
 import org.camunda.bpm.engine.variable.value.LocalDateValue;
 import org.camunda.bpm.engine.variable.value.LocalTimeValue;
 import org.camunda.bpm.engine.variable.value.LongValue;
 import org.camunda.bpm.engine.variable.value.NumberValue;
+import org.camunda.bpm.engine.variable.value.PeriodValue;
 import org.camunda.bpm.engine.variable.value.ShortValue;
 import org.camunda.bpm.engine.variable.value.StringValue;
 import org.camunda.bpm.engine.variable.value.TypedValue;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
+import org.joda.time.ReadablePeriod;
 
 /**
  * Implementation of the primitive variable value types
@@ -153,7 +154,7 @@ public abstract class PrimitiveValueTypeImpl extends AbstractValueTypeImpl imple
     private static final long serialVersionUID = 1L;
 
     public PeriodTypeImpl() {
-      super(Period.class);
+      super("Period", ReadablePeriod.class);
     }
 
     public PeriodValue createValue(Object value, Map<String, Object> valueInfo) {

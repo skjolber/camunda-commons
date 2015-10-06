@@ -12,16 +12,16 @@
  */
 package org.camunda.bpm.engine.variable.value;
 
-import org.joda.time.Period;
+import org.joda.time.ReadablePeriod;
 
 /**
  * <p>
- * A {@link PrimitiveValue} corresponding to the Java type {@link Period}.
+ * A {@link PrimitiveValue} corresponding to the Java type {@link ReadablePeriod}.
  * </p>
  *
  * @author Philipp Ossler
  * @since 7.4
  */
-public interface PeriodValue extends PrimitiveValue<Period> {
+public interface PeriodValue extends PrimitiveValue<ReadablePeriod> {
 
 }
