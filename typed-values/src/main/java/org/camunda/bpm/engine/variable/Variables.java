@@ -13,6 +13,7 @@
 package org.camunda.bpm.engine.variable;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
@@ -287,8 +288,9 @@ public class Variables {
   /**
    * Shortcut for calling {@code Variables.fileValue(name).file(file).mimeType(type).create()}.
    * The name is set to the file name and the mime type is detected via {@link MimetypesFileTypeMap}.
+   * @throws IOException if the file cannot be read
    */
-  public static FileValue fileValue(File file){
+  public static FileValue fileValue(File file) throws IOException{
     String contentType = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(file);
     return new FileValueBuilderImpl(file.getName()).file(file).mimeType(contentType).create();
   }

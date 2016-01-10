@@ -13,6 +13,7 @@
 package org.camunda.bpm.engine.variable.impl.type;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,7 @@ import org.camunda.bpm.engine.variable.value.TypedValue;
 import org.camunda.bpm.engine.variable.value.builder.FileValueBuilder;
 
 /**
- * Valuetype to save files from byte arrays, inputstreams or just files as
+ * Valuetype to save files from byte arrays, {@link InputStream}s or just files as
  * process variables and retrieve them via an {@link InputStream}.
  *
  * @author Ronny Bräunlich
@@ -47,11 +48,21 @@ public class FileValueTypeImpl extends AbstractValueTypeImpl implements FileValu
     }
     FileValueBuilder builder = Variables.fileValue(filename.toString());
     if (value instanceof File) {
-      builder.file((File) value);
+      try {
+		builder.file((File) value);
+      } catch (IOException e) {
+          throw new IllegalArgumentException("Unable to read the provided file value " + value, e);
+      }
     } else if (value instanceof InputStream) {
-      builder.file((InputStream) value);
+      try {
+        builder.file((InputStream) value);
+      } catch (IOException e) {
+        throw new IllegalArgumentException("Unable to read the provided inputstream value", e);
+      }
     } else if (value instanceof byte[]) {
       builder.file((byte[]) value);
+    } else {
+      throw new IllegalArgumentException("Provided value is not a File, InputStream or byte[] value.");
     }
 
     if (valueInfo.containsKey(VALUE_INFO_FILE_MIME_TYPE)) {

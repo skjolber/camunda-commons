@@ -12,9 +12,12 @@
  */
 package org.camunda.bpm.engine.variable.impl.value.builder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
@@ -50,18 +53,39 @@ public class FileValueBuilderImpl implements FileValueBuilder {
   }
 
   @Override
-  public FileValueBuilder file(File file) {
-    try {
-      this.file(new FileInputStream(file));
-    } catch (FileNotFoundException e) {
-      throw new IllegalArgumentException(e);
-    }
-    return this;
+  public FileValueBuilder file(File file) throws IOException {
+	  FileInputStream fin = null;
+	  try {
+		  fin = new FileInputStream(file);
+		  
+		  file(fin);
+	  } finally {
+		  org.camunda.commons.utils.IoUtil.closeSilently(fin);
+	  }
+	  return this;
   }
 
   @Override
-  public FileValueBuilder file(InputStream stream) {
-      this.file(org.camunda.commons.utils.IoUtil.inputStreamAsString(stream).getBytes());
+  public FileValueBuilder file(InputStream is) throws IOException {
+
+	  byte[] buffer = new byte[16 * 1024];
+
+	  ByteArrayOutputStream os = new ByteArrayOutputStream();
+      int read;
+      
+      try {
+	      do {
+	    	  read = is.read(buffer, 0, buffer.length);
+	    	  if(read == -1) {
+	    		  break;
+	    	  }
+			  os.write(buffer, 0, read);
+	      } while(true);
+	  
+	      this.file(os.toByteArray());
+      } finally {
+		  org.camunda.commons.utils.IoUtil.closeSilently(is);
+      }
     return this;
   }
 

@@ -13,6 +13,7 @@
 package org.camunda.bpm.engine.variable.value.builder;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
@@ -39,15 +40,16 @@ public interface FileValueBuilder extends TypedValueBuilder<FileValue> {
    * @see #file(byte[])
    * @see #file(InputStream)
    */
-  FileValueBuilder file(File file);
+  FileValueBuilder file(File file) throws IOException;
 
   /**
-   * Sets the value to the specified {@link InputStream}.
+   * Sets the value to the specified {@link InputStream}. 
+   * @throws IOException if unable to read full stream
    *
    * @see #file(byte[])
    * @see #file(File)
    */
-  FileValueBuilder file(InputStream stream);
+  FileValueBuilder file(InputStream stream) throws IOException;
 
   /**
    * Sets the value to the specified {@link Byte} array

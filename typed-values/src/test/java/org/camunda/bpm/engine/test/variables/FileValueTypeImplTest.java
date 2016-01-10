@@ -168,7 +168,7 @@ public class FileValueTypeImplTest {
   }
 
   @Test
-  public void valueInfoContainsFileTypeNameAndCharsetEncoding() {
+  public void valueInfoContainsFileTypeNameAndCharsetEncoding() throws IOException {
     InputStream file = this.getClass().getClassLoader().getResourceAsStream("org/camunda/bpm/engine/test/variables/simpleFile.txt");
     String fileName = "simpleFile.txt";
     String fileType = "text/plain";
@@ -182,7 +182,7 @@ public class FileValueTypeImplTest {
   }
 
   @Test
-  public void valueInfoContainsFileTypeNameAndStringEncoding() {
+  public void valueInfoContainsFileTypeNameAndStringEncoding() throws IOException {
     InputStream file = this.getClass().getClassLoader().getResourceAsStream("org/camunda/bpm/engine/test/variables/simpleFile.txt");
     String fileName = "simpleFile.txt";
     String fileType = "text/plain";
